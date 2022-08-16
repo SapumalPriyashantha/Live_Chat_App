@@ -1,8 +1,8 @@
-package Server;
+package Server.model;
 
+import Server.controllers.serverFormController;
 import javafx.scene.layout.VBox;
 
-import javax.imageio.IIOException;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -61,7 +61,7 @@ public class Server {
                 while (socket.isConnected()){
                     try {
                         String messageFromClient = bufferedReader.readLine();
-                        Controller.addLable(messageFromClient,vBox);
+                        serverFormController.addLable(messageFromClient,vBox);
                     } catch (IOException e) {
                         e.printStackTrace();
                         System.out.println("Error receiving message from the client");
