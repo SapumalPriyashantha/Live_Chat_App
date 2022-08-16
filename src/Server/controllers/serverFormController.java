@@ -35,49 +35,49 @@ public class serverFormController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-//        try{
-//            server = new Server(new ServerSocket(5000));
-//        } catch (IOException e){
-//            e.printStackTrace();
-//            System.out.println("Error creating server");
-//        }
-//
-//        server_vBox_message.heightProperty().addListener(new ChangeListener<Number>() {
-//            @Override
-//            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-//                sever_sp_main.setVvalue((Double) newValue);
-//            }
-//        });
-//
-//        server.receiveMessageFromClient(server_vBox_message);
-//
-//        server_button_send.setOnAction(new EventHandler<ActionEvent>() {
-//            @Override
-//            public void handle(ActionEvent event) {
-//                String messageToSend = sever_tf_message.getText();
-//                if(!messageToSend.isEmpty()){
-//                    HBox hBox = new HBox();
-//                    hBox.setAlignment(Pos.CENTER_RIGHT);
-//                    hBox.setPadding(new Insets(5,5,5,10));
-//
-//                    Text text = new Text(messageToSend);
-//                    TextFlow textFlow = new TextFlow(text);
-//
-//                    textFlow.setStyle("-fx-color : rgb(239,242,255);"+
-//                            "-fx-background-color : rgb(239,242,255);"+
-//                            "-fx-background-radius : 20px;");
-//
-//                    textFlow.setPadding(new Insets(5,10,5,10));
-//                    text.setFill(Color.color(0.934,0.945,0.996));
-//
-//                    hBox.getChildren().add(textFlow);
-//                    server_vBox_message.getChildren().add(hBox);
-//
-//                    server.sendMessageToClient(messageToSend);
-//                    sever_tf_message.clear();
-//                }
-//            }
-//        });
+        try{
+            server = new Server(new ServerSocket(5000));
+        } catch (IOException e){
+            e.printStackTrace();
+            System.out.println("Error creating server");
+        }
+
+        server_vBox_message.heightProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                sever_sp_main.setVvalue((Double) newValue);
+            }
+        });
+
+        server.receiveMessageFromClient(server_vBox_message);
+
+        server_button_send.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                String messageToSend = sever_tf_message.getText();
+                if(!messageToSend.isEmpty()){
+                    HBox hBox = new HBox();
+                    hBox.setAlignment(Pos.CENTER_RIGHT);
+                    hBox.setPadding(new Insets(5,5,5,10));
+
+                    Text text = new Text(messageToSend);
+                    TextFlow textFlow = new TextFlow(text);
+
+                    textFlow.setStyle("-fx-color : rgb(239,242,255);"+
+                            "-fx-background-color : rgb(239,242,255);"+
+                            "-fx-background-radius : 20px;");
+
+                    textFlow.setPadding(new Insets(5,10,5,10));
+                    text.setFill(Color.color(0.934,0.945,0.996));
+
+                    hBox.getChildren().add(textFlow);
+                    server_vBox_message.getChildren().add(hBox);
+
+                    server.sendMessageToClient(messageToSend);
+                    sever_tf_message.clear();
+                }
+            }
+        });
     }
 
     public static void addLable(String messageFromClient , VBox vbox){

@@ -17,7 +17,7 @@
                 <VBox fx:id="client_vBox_message" prefHeight="248" prefWidth="412" />
             </content>
         </ScrollPane>
-        <Label layoutX="206.0" layoutY="27.0" text="Sever">
+        <Label layoutX="206.0" layoutY="27.0" text="Client">
             <font>
                 <Font name="Arial Rounded Mt Bold" size="23" />
             </font>
