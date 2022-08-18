@@ -12,13 +12,17 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.stage.FileChooser;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.URL;
@@ -30,6 +34,7 @@ public class serverFormController implements Initializable {
     public TextField sever_tf_message;
     public ScrollPane sever_sp_main;
     public VBox server_vBox_message;
+    public Button server_button_addImage;
 
     private Server server;
 
@@ -58,43 +63,80 @@ public class serverFormController implements Initializable {
                 if(!messageToSend.isEmpty()){
                     HBox hBox = new HBox();
                     hBox.setAlignment(Pos.CENTER_RIGHT);
-                    hBox.setPadding(new Insets(5,5,5,10));
+                    hBox.setPadding(new Insets(5,5,5,5));
 
                     Text text = new Text(messageToSend);
+                    text.setFont(new Font("SansSerif", 20));
+
                     TextFlow textFlow = new TextFlow(text);
-
                     textFlow.setStyle("-fx-background-color : rgb(18,60,198); -fx-background-radius : 20px;");
-
-                    textFlow.setPadding(new Insets(5,10,5,10));
+                    textFlow.setPadding(new Insets(5,5,5,5));
                     text.setFill(Color.color(0.934,0.945,0.996));
 
                     hBox.getChildren().add(textFlow);
                     server_vBox_message.getChildren().add(hBox);
 
-                    server.sendMessageToClient(messageToSend);
+                    server.sendMessageOrImageToClient(messageToSend);
                     sever_tf_message.clear();
                 }
             }
         });
+
+        FileChooser fileChooser = new FileChooser();
+        server_button_addImage.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                HBox hBox = new HBox();
+                hBox.setAlignment(Pos.CENTER_RIGHT);
+                hBox.setPadding(new Insets(5,5,5,10));
+
+                File file = fileChooser.showOpenDialog(null);
+
+                ImageView imageView = new ImageView(file.toURI().toString());
+                imageView.setFitHeight(80.0);
+                imageView.setFitWidth(80.0);
+
+                hBox.getChildren().add(imageView);
+                server_vBox_message.getChildren().add(hBox);
+
+                server.sendMessageOrImageToClient(file.toURI().toString());
+            }
+        });
     }
 
-    public static void addLable(String messageFromClient , VBox vbox){
+    public static void addLable(String messageFromClient,VBox vBox){
         HBox hBox = new HBox();
         hBox.setAlignment(Pos.CENTER_LEFT);
         hBox.setPadding(new Insets(5,5,5,10));
 
-        Text text = new Text(messageFromClient);
-        TextFlow textFlow = new TextFlow(text);
-        textFlow.setStyle("-fx-background-color: rgb(233,233,235);"+
-                "-fx-background-radius: 20px");
-        textFlow.setPadding(new Insets(5,10,5,10));
-        hBox.getChildren().add(textFlow);
+        if(!(checkValidation(messageFromClient))){
+            Text text = new Text(messageFromClient);
+            TextFlow textFlow = new TextFlow(text);
+            text.setFont(new Font("SansSerif", 20));
+
+            textFlow.setStyle("-fx-background-color: rgb(233,233,235);"+
+                    "-fx-background-radius: 20px");
+            textFlow.setPadding(new Insets(5,10,5,10));
+
+            hBox.getChildren().add(textFlow);
+        }else {
+            ImageView imageView = new ImageView(messageFromClient);
+            imageView.setFitHeight(80.0);
+            imageView.setFitWidth(80.0);
+
+            hBox.getChildren().add(imageView);
+        }
+
 
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                vbox.getChildren().add(hBox);
+                vBox.getChildren().add(hBox);
             }
         });
+    }
+
+    private static boolean checkValidation(String messageFromClient) {
+        return messageFromClient.matches("(.*):(.*)");
     }
 }

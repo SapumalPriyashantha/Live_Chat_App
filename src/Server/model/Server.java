@@ -42,7 +42,7 @@ public class  Server {
         }
     }
 
-    public void sendMessageToClient(String messageToClient){
+    public void sendMessageOrImageToClient(String messageToClient){
         try {
             bufferedWriter.write(messageToClient);
             bufferedWriter.newLine();

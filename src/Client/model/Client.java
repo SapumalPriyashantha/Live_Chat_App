@@ -40,9 +40,9 @@ public class Client {
         }
     }
 
-    public void sendMessageToServer(String messageToServer){
+    public void sendMessageOrImageToServer(String messageOrImageToServer){
         try {
-            bufferedWriter.write(messageToServer);
+            bufferedWriter.write(messageOrImageToServer);
             bufferedWriter.newLine();
             bufferedWriter.flush();
         } catch (IOException e) {
